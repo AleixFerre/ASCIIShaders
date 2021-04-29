@@ -4,21 +4,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
-
 using UnityEngine;
 
-namespace AsciiImageEffect
-{
+namespace AsciiImageEffect {
 	/// <summary>
 	/// Ascii - Image Effect.
 	/// </summary>
 	[ExecuteInEditMode]
 	[RequireComponent(typeof(Camera))]
 	[AddComponentMenu("Image Effects/AsciiZarkow")]
-	public sealed class AsciiZarkow : MonoBehaviour
-	{
+	public sealed class AsciiZarkow : MonoBehaviour {
 		private Shader shader;
-		
+
 		private Material material;
 
 		private Texture BracketSamplerTexture;
@@ -32,12 +29,11 @@ namespace AsciiImageEffect
 		private Texture MinusSamplerTexture;
 		private Texture DotSamplerTexture;
 
-		private void Awake()
-		{
-			shader = Resources.Load<Shader> (@"Shaders/AsciiZarkow");
+		private void Awake() {
+			shader = Resources.Load<Shader>(@"Shaders/AsciiZarkow");
 			if (shader == null) {
-				Debug.LogError (@"Ascii shader not found.");
-				
+				Debug.LogError(@"Ascii shader not found.");
+
 				this.enabled = false;
 			}
 		}
@@ -45,34 +41,27 @@ namespace AsciiImageEffect
 		/// <summary>
 		/// Check.
 		/// </summary>
-		private void OnEnable()
-		{
-			if (SystemInfo.supportsImageEffects == false)
-			{
+		private void OnEnable() {
+			if (SystemInfo.supportsImageEffects == false) {
 				Debug.LogError(@"Hardware not support Image Effects.");
-				
+
 				this.enabled = false;
-			}
-			else if (shader == null)
-			{
+			} else if (shader == null) {
 				Debug.LogError(string.Format("'{0}' shader null.", this.GetType().ToString()));
-				
+
 				this.enabled = false;
-			}
-			else
-			{
+			} else {
 				CreateMaterial();
-				
+
 				if (material == null)
 					this.enabled = false;
 			}
 		}
-		
+
 		/// <summary>
 		/// Destroy the material.
 		/// </summary>
-		private void OnDisable()
-		{
+		private void OnDisable() {
 			if (material != null)
 				DestroyImmediate(material);
 		}
@@ -80,21 +69,17 @@ namespace AsciiImageEffect
 		/// <summary>
 		/// Creates the material.
 		/// </summary>
-		private void CreateMaterial()
-		{
-			if (shader != null)
-			{
-				if (material != null)
-				{
+		private void CreateMaterial() {
+			if (shader != null) {
+				if (material != null) {
 					if (Application.isEditor == true)
 						DestroyImmediate(material);
 					else
 						Destroy(material);
 				}
-				
+
 				material = new Material(shader);
-				if (material == null)
-				{
+				if (material == null) {
 					Debug.LogWarning(string.Format("'{0}' material null.", this.name));
 					return;
 				}
@@ -109,23 +94,21 @@ namespace AsciiImageEffect
 					PlusSamplerTexture = LoadTexture("ascii_plus");
 					TildeSamplerTexture = LoadTexture("ascii_tilde");
 					MinusSamplerTexture = LoadTexture("ascii_minus");
-					DotSamplerTexture = LoadTexture ("ascii_dot");
+					DotSamplerTexture = LoadTexture("ascii_dot");
 
-    			}
+				}
 			}
 		}
 
-		private Texture LoadTexture(string texturePath)
-		{
+		private Texture LoadTexture(string texturePath) {
 			Texture tex = Resources.Load<Texture>("Textures/" + texturePath);
-			if (tex == null)
-			{
+			if (tex == null) {
 				Debug.LogError(string.Format("Texture '{0}' not found!", "Textures/" + texturePath));
-				
+
 				return null;
 			}
-			
-			Debug.Log ("Loaded " + texturePath);
+
+			Debug.Log("Loaded " + texturePath);
 
 			// safety, if forgotten when we added them
 			tex.wrapMode = TextureWrapMode.Repeat;
@@ -134,15 +117,10 @@ namespace AsciiImageEffect
 			return tex;
 		}
 
-		private void OnRenderImage(RenderTexture source, RenderTexture destination)
-		{
-			if (material != null)
-			{
+		private void OnRenderImage(RenderTexture source, RenderTexture destination) {
+			if (material != null) {
 				material.SetFloat(@"monitorWidthMultiplier", (Screen.width / 9.0f));
 				material.SetFloat(@"monitorHeightMultiplier", (Screen.height / 10.0f));
-
-				// Debug.Log((int)(Screen.width / 9.0f) + " - " + (int)(Screen.height / 10.0f));
-
 
 				material.SetTexture(@"BracketSampler", BracketSamplerTexture);
 				material.SetTexture(@"AndSampler", AndSamplerTexture);
