@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
+    public GameObject canvas;
+
+    public MouseCamera mouse;
+    public PlayerController controller;
+
     public void PlayGame() {
-        SceneManager.LoadScene(1);
+        Debug.Log("Començant a jugar!");
+        canvas.SetActive(false);
+        mouse.enabled = true;
+        controller.enabled = true;
     }
 
     public void ExitGame() {
+        Debug.Log("Adeu!");
 #if UNITY_EDITOR 
         UnityEditor.EditorApplication.isPlaying = false;
 #else
