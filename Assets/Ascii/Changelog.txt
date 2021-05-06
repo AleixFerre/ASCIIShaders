@@ -1,5 +1,0 @@
-AsciiZarkow 1.0
----------------
-
-Render your scene in ASCII
-
