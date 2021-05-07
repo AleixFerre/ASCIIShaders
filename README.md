@@ -1,2 +1,8 @@
 # ASCIIShaders
-Pràctica final per l'assignatura de Sintesi d'Imatges Expressives
+Open Source ASCII Shaders for Unity
+
+## Made by
+
+Aleix Ferré
+Joel Perez
+Joaquin Villena
